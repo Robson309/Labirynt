@@ -21,7 +21,7 @@ void show_table(char tab[10][10])
 }
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//aktualnie na tebeli 10x10
+	//aktualnie na tebeli10x10
 	char tab[10][10];
 	int metax=10;
 	int metay=10;
