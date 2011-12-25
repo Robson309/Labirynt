@@ -2,6 +2,10 @@
 #include <string>
 #include <fstream>
 #include <time.h>
+#include <SDL\SDL.h>
+#include <SDL\SDL_main.h>
+#include <SDL\SDL_mouse.h>
+
 
 using namespace std;
 
@@ -28,9 +32,12 @@ using namespace std;
 	 int counter_black = 0;
 	 int counter_white = 0;
 
+	 
+	 //! funkcje
 	 void initialState();
 	 void countStone();
 	 bool checkStone(int column, int row, int color);
+	 void turnStone(int column, int row, int color);
 	 bool checkAll(int turn);
 	 void endGame();
 	 void paintBoard();
@@ -39,10 +46,10 @@ using namespace std;
 int main(int argc, char** argv[])
 {
 	 
-	void initialState();	
+	initialState();	
 	countStone();
 	turn = BLACK;
-
+	paintBoard();
 
 	system("PAUSE");
 	return 0;
@@ -150,3 +157,69 @@ bool checkStone(int column, int row, int color){
 		return false;
 		}
   }
+
+void turnStone(int column, int row, int color) {
+    
+    stone[column][row] = color;
+    int i,j;
+
+    if (direction[LEFT] == true){
+      
+		for (i = column-1; stone[i][row] != color; i--){
+			stone[i][row] = - stone[i][row];
+		}
+    }
+    
+    if (direction[RIGHT] == true){
+		for (i = column + 1; stone[i][row] != color; i++){
+			stone[i][row] = - stone[i][row];
+		}
+    }
+   
+    if (direction[UP] == true){
+		for (j = row - 1; stone[column][j] != color; j--){
+			stone[column][j] = - stone[column][j];
+		}
+    }
+    
+    if (direction[DOWN] == true){
+		for (j = row + 1; stone[column][j] != color; j++){
+			stone[column][j] = - stone[column][j];
+		}
+    }
+   
+    if (direction[UPLEFT] == true){
+		for (i = column-1, j = row-1; stone[i][j] != color; i--, j--){
+			stone[i][j] = - stone[i][j];
+		}
+    }
+    
+    if (direction[UPRIGHT] == true){
+		for (i = column+1, j = row-1; stone[i][j] != color; i++, j--){
+			stone[i][j] = - stone[i][j];
+		}
+    }
+  
+    if (direction[DOWNRIGHT] == true){
+		for (i = column+1, j = row+1; stone[i][j] != color; i++, j++){
+			stone[i][j] = - stone[i][j];
+		}
+    }
+    
+    if (direction[DOWNLEFT] == true){
+		for (i = column-1, j = row+1; stone[i][j] != color; i--, j++){
+			stone[i][j] = - stone[i][j];
+		}
+    }   
+}
+
+void paintBoard() {
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j++){
+			if (stone[i][j]==EMPTY) cout << "*";
+				else if (stone[i][j]==BLACK) cout << "B";
+					else cout << "W";
+			if (j==7) cout << "\n";
+		}
+	}	
+}
